@@ -1,4 +1,3 @@
-
 // Input from player
 var moveTouchPad : Joystick;
 var jumpTouchPad : Joystick;
@@ -248,12 +247,12 @@ function FixedUpdate()
 
 function testGrounded()
 {
-	// cast ray to ceiling to get distance
+	// cast ray to floor to get distance
 		var hit : RaycastHit;
 		var distanceToFloor : float;
 		if (Physics.Raycast(transform.position, -transform.up, hit)) 
 		{
-			// ceiling distance
+			// floor distance
 			distanceToFloor = hit.distance;
 		}
 		
