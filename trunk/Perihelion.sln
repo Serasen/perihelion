@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+
+Project("{DC7BEC7A-428C-8903-953B-507C85902468}") = "Perihelion", "Assembly-CSharp.csproj", "{31799C63-544D-DA66-11AA-21B7C16133AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31799C63-544D-DA66-11AA-21B7C16133AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31799C63-544D-DA66-11AA-21B7C16133AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31799C63-544D-DA66-11AA-21B7C16133AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31799C63-544D-DA66-11AA-21B7C16133AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	
+EndGlobal
