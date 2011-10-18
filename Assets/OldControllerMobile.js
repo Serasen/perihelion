@@ -1,3 +1,11 @@
+/*
+
+// ***************************************************************************
+// *	CONTROLLER THAT WORKS WITH ANDROID PUBLISHING LICENSE	*
+// *	PLEASE REMEMBER TO COMMENT BACK OUT BEFORE COMMITTING	*
+// *	FOR THOSE WITHOUT SAID LICENSE										*
+// ***************************************************************************
+
 
 // Input from player
 var moveTouchPad : Joystick;
@@ -254,7 +262,7 @@ function FixedUpdate()
 	
 	// manually add gravity force
 		
-	rigidbody.AddForce(Vector3(0, -gravity /* * rigidbody.mass*/, 0));
+	rigidbody.AddForce(Vector3(0, -gravity, 0));
 	
 	
 	
@@ -368,3 +376,4 @@ function interactObjectDirection() : Vector3
 
 
 }
+*/

@@ -1,16 +1,14 @@
 
 
-var moveSpeed : int = 2;					// controls force multiplier on rigidbody
-var rotationSpeed = 10;						// controls rotation multiplier on transform
-var jumpHeight = 2.0;						// controls jump multiplier
-var environmentGravity = 9.8;				// gravity value in m/s/s
-private var jumpPower : float;				// jump force value
+//var slideSpeed;									// controls force multiplier on rigidbody
+var rotateSpeed;									// controls rotation multiplier on transform
+var jumpPower;									// controls jump multiplier
+var gravity;										// gravity value in m/s/s
 private var currentRotation : float = 0;	// current rotation in euler angle degrees
 private var grounded = false;				// state variable, is on ground?
-private var rotateSpeed = 0;				// rotate speed calculated with one order of magnitude
-private var slideSpeed : int = 0;			// move speed calculated with object mass
-private var gravity : float = 0;			// calculated force of gravity with object mass
-private var coll : Collision;				// global collision object to pass angle values
+private var coll : Collision;					// global collision object to pass angle values
+private var slideModifier: int;					// used to double effect of gravity while grounded for more slidyness
+private var startingZ: float;					// our starting Z coordinate that should be kept the same
 
 
 
@@ -18,10 +16,12 @@ function Start()
 {
 	rigidbody.freezeRotation = true;				// freeze object rotatio	
 	rigidbody.useGravity = false; 					// turn off physics engine gravity
-	gravity = environmentGravity * rigidbody.mass;	// set gravity force
-	jumpPower = (jumpHeight) * (gravity) * 0.3;			// set jump height force value
-	rotateSpeed = rotationSpeed * 10;				// rotation speed multiplier
-	slideSpeed = moveSpeed * rigidbody.mass * 10;	// slide speed multiplier
+	gravity = 9.8 * rigidbody.mass;				// set gravity force
+	jumpPower = 0.2 * gravity;					// set jump height force value
+	rotateSpeed = 150;								// rotation speed multiplier
+	//slideSpeed = rigidbody.mass;						// slide speed multiplier
+	slideModifier = 1;
+	startingZ = transform.position.z;
 }
 
 
@@ -30,18 +30,23 @@ function Update()
 {
 	// rotate transform variable degrees every frame on z-axis with value in z-axis of Vector3
 	transform.Rotate(Vector3(0,0,Time.deltaTime*Input.GetAxis("Horizontal") * rotateSpeed), Space.World);
+	
+	// subtract the change in the Z coordinate of our position from its starting point
+	// small Z offsets occur over time due to physics, this is to ensure he does not fall off the level
+	transform.Translate(0, 0, startingZ - transform.position.z);
 
 	
 	// if contact with object labeled as ground
 	if (grounded)
 	{
 		// if press jump button
-		if (Input.GetKeyUp(KeyCode.Space))
+		if (Input.GetButton("Jump"))
 		{
+			Debug.Log("jump");
 			// add force to transforms up direction with jumpPower multiplier
 			rigidbody.AddForce(transform.up * jumpPower, ForceMode.Impulse);	
 		}
-		
+	/*	
 		// get angle difference between object and floor
 		var angle = (transform.eulerAngles.z - coll.transform.eulerAngles.z);
 		
@@ -58,16 +63,16 @@ function Update()
 		// if within range of degrees of tilt that a horizontal force is wanted
 		if ((angle >5 && angle < 40) || (angle < -5 && angle > -40))
 		{
-			var test = (transform.forward * slideSpeed * angle);
+			var test = (transform.right * slideSpeed * angle);
 			// add horizontal force (simulated sliding)
-			rigidbody.AddForce(transform.forward * slideSpeed * angle, ForceMode.Force);
+			rigidbody.AddForce(transform.right * slideSpeed * angle, ForceMode.Force);
 		
 		
 		}
 		// debug log print values
 		print("Euler Difference in Degrees: " + angle);
 		print("Force vector: " + test);
-		
+	*/
 	}
 	
 	
@@ -77,32 +82,26 @@ function Update()
 function FixedUpdate()
 {
 	//gravity
-	gameObject.rigidbody.AddForce(-(gameObject.transform.up) * gravity);
+	gameObject.rigidbody.AddForce(-(gameObject.transform.up) * gravity * slideModifier);
 }
 
 // if collider enters another collider
 function OnCollisionEnter(col : Collision)
 {
-	// if other object has tag "Jumpable"
-	if(col.gameObject.tag == "Jumpable")
-	{
-		// set grounded to true, set it as currently colliding object
-		grounded = true;
-		coll = col;
-		Debug.Log("Player Grounded");
-	}
+	// set grounded to true, set it as currently colliding object
+	grounded = true;
+	coll = col;
+	slideModifier = 2;	
+	Debug.Log("Player Grounded");
 }
 
 // if collider exits another collider
 function OnCollisionExit(col : Collision)
 {
-	// if other object has tag "Jumpable"
-	if(col.gameObject.tag == "Jumpable")
-	{
-		// set grounded to false
-		grounded = false;
-		Debug.Log("Player Not Grounded");
-	}
+	// set grounded to false
+	grounded = false;
+	slideModifier = 1;
+	Debug.Log("Player Not Grounded");
 }
 
 

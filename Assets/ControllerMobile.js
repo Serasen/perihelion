@@ -1,3 +1,11 @@
+/*
+
+// ***************************************************************************
+// *	CONTROLLER THAT WORKS WITH ANDROID PUBLISHING LICENSE	*
+// *	PLEASE REMEMBER TO COMMENT BACK OUT BEFORE COMMITTING	*
+// *	FOR THOSE WITHOUT SAID LICENSE										*
+// ***************************************************************************
+
 
 // Input from player
 var moveTouchPad : Joystick;				// Onscreen touch pad for movement
@@ -128,3 +136,4 @@ function OnCollisionExit(col : Collision)
 }
 
 
+*/

@@ -1,5 +1,5 @@
 var respawnPoint : GameObject;
-private var target : GameObject;
+var target : GameObject;
 
 
 function Awake()
