@@ -92,7 +92,6 @@ function OnCollisionEnter(col : Collision)
 	grounded = true;
 	coll = col;
 	slideModifier = 2;	
-	Debug.Log("Player Grounded");
 }
 
 // if collider exits another collider
@@ -101,7 +100,6 @@ function OnCollisionExit(col : Collision)
 	// set grounded to false
 	grounded = false;
 	slideModifier = 1;
-	Debug.Log("Player Not Grounded");
 }
 
 
