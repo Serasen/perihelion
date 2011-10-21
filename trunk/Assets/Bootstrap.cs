@@ -5,7 +5,7 @@ public class Bootstrap : MonoBehaviour {
 	// This should point to a Prefab LevelManager object.
 	public GameObject prefabLM;
 
-	void Start () {
+	void Awake () {
 		// sigh... Instantiate appends (Clone) to any object created...
 		// So need to rename it without the Clone.
 		// Anyway... check for existance of a LevelManager, and if none,
