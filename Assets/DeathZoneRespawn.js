@@ -16,6 +16,10 @@ function OnTriggerExit(col : Collider)
 		target.transform.rotation = respawnPoint.transform.rotation;
 		target.rigidbody.velocity = Vector3.zero;
 	}
+	else
+	{
+		Destroy(col.gameObject);
+	}
 
 
 }
