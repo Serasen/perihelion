@@ -21,9 +21,11 @@ public class Door : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider c) {
-		// Mark the level as completed in a bool array
-		lmScript.checkLevel();
-		// Load the next level, or the first if you are at the end. This loop structure is temporary.
-		Application.LoadLevel((Application.loadedLevel + 1) % totalLevels);
+		if (c.name == "Player") {
+			// Mark the level as completed in a bool array
+			lmScript.checkLevel();
+			// Load the next level, or the first if you are at the end. This loop structure is temporary.
+			Application.LoadLevel((Application.loadedLevel + 1) % totalLevels);
+		}
 	}
 }
