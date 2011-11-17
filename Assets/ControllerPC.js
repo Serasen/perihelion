@@ -9,6 +9,7 @@ private var grounded = false;				// state variable, is on ground?
 private var coll : Collision;					// global collision object to pass angle values
 private var slideModifier: int;					// used to double effect of gravity while grounded for more slidyness
 private var startingZ: float;					// our starting Z coordinate that should be kept the same
+private var collisionPoint: Vector3;
 
 
 
@@ -34,18 +35,20 @@ function Update()
 	// subtract the change in the Z coordinate of our position from its starting point
 	// small Z offsets occur over time due to physics, this is to ensure he does not fall off the level
 	transform.Translate(0, 0, startingZ - transform.position.z);
-
 	
 	// if contact with object labeled as ground
+		
 	if (grounded)
 	{
+		var surfaceNormal = (coll.collider.ClosestPointOnBounds(transform.position) 
+							- transform.position).normalized;
 		// if press jump button
 		if (Input.GetButton("Jump"))
 		{
-			Debug.Log("jump");
-			// add force to transforms up direction with jumpPower multiplier
-			rigidbody.AddForce(transform.up * jumpPower, ForceMode.Impulse);	
-		}
+			// add force to surface normal direction with jumpPower multiplier
+			rigidbody.AddForce(surfaceNormal * jumpPower * -1, ForceMode.Impulse);
+		}	
+
 	/*	
 		// get angle difference between object and floor
 		var angle = (transform.eulerAngles.z - coll.transform.eulerAngles.z);
@@ -85,13 +88,12 @@ function FixedUpdate()
 	gameObject.rigidbody.AddForce(-(gameObject.transform.up) * gravity * slideModifier);
 }
 
-// if collider enters another collider
-function OnCollisionEnter(col : Collision)
+//if collider is in contact with another collider
+function OnCollisionStay(col : Collision)
 {
-	// set grounded to true, set it as currently colliding object
 	grounded = true;
 	coll = col;
-	slideModifier = 2;	
+	slideModifier = 2;
 }
 
 // if collider exits another collider
