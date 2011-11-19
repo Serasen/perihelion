@@ -1,11 +1,10 @@
 var dialogue : TextAsset;
-var dialStyle : GUIStyle;
+var skin : GUISkin;
 private var showBox = false;
 private var hasBeenTriggered = false;
 private var dial;
 private var index = 0;
 private var dialLength;
-
 
 function OnTriggerEnter() {
 		if(dialogue) {
@@ -21,8 +20,9 @@ function OnTriggerEnter() {
 }
 
 function OnGUI() {
+	GUI.skin = skin;
 	if(showBox && index < dialLength) {
-		if (GUI.Button (Rect (Screen.width/4,0,Screen.width/2,50), dial[index], dialStyle)) {
+		if (GUI.Button (Rect (Screen.width/4,0,Screen.width/2,50), dial[index])) {
 			index++;
 		}
 	}
