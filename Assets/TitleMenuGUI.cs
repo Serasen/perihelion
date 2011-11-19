@@ -27,7 +27,7 @@ public class TitleMenuGUI : MonoBehaviour {
 
 	void OnGUI() {
 		if(GUI.Button (new Rect(Screen.width/2 - buttonWidth/2,Screen.height/2.1F,buttonWidth,buttonHeight), "Play")) {
-
+			Application.LoadLevel(1);
 		}
 		if(GUI.Button (new Rect(Screen.width/2 - buttonWidth/2,Screen.height/2.1F + buttonHeight + padding,buttonWidth,buttonHeight), "Options")) {
 			GetComponent<OptionsMenuGUI>().enabled = true;
