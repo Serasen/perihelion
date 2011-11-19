@@ -6,7 +6,7 @@ public class LevelManager : MonoBehaviour {
 	private int numOfLevels;
 	
 	void Awake () {
-		numOfLevels = 2;
+		numOfLevels = 3;
 		levelsCompleted = new bool[numOfLevels];
 	}
 	
