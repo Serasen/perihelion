@@ -8,8 +8,6 @@ private var currentRotation : float = 0;	// current rotation in euler angle degr
 private var grounded = false;				// state variable, is on ground?
 private var coll : Collision;					// global collision object to pass angle values
 private var slideModifier: int;					// used to double effect of gravity while grounded for more slidyness
-private var startingZ: float;					// our starting Z coordinate that should be kept the same
-private var collisionPoint: Vector3;
 
 
 
@@ -18,11 +16,10 @@ function Start()
 	rigidbody.freezeRotation = true;				// freeze object rotatio	
 	rigidbody.useGravity = false; 					// turn off physics engine gravity
 	gravity = 9.8 * rigidbody.mass;				// set gravity force
-	jumpPower = 0.2 * gravity;					// set jump height force value
+	jumpPower = 5;					// set jump height force value
 	rotateSpeed = 150;								// rotation speed multiplier
 	//slideSpeed = rigidbody.mass;						// slide speed multiplier
 	slideModifier = 1;
-	startingZ = transform.position.z;
 }
 
 
@@ -32,21 +29,15 @@ function Update()
 	// rotate transform variable degrees every frame on z-axis with value in z-axis of Vector3
 	transform.Rotate(Vector3(0,0,Time.deltaTime*Input.GetAxis("Horizontal") * rotateSpeed), Space.World);
 	
-	// subtract the change in the Z coordinate of our position from its starting point
-	// small Z offsets occur over time due to physics, this is to ensure he does not fall off the level
-	transform.Translate(0, 0, startingZ - transform.position.z);
-	
-	// if contact with object labeled as ground
-		
+	// if contact with object labeled as ground	
 	if (grounded)
 	{
-		var surfaceNormal = (coll.collider.ClosestPointOnBounds(transform.position) 
-							- transform.position).normalized;
 		// if press jump button
 		if (Input.GetButton("Jump"))
 		{
-			// add force to surface normal direction with jumpPower multiplier
-			rigidbody.AddForce(surfaceNormal * jumpPower * -1, ForceMode.Impulse);
+			var surfaceNormal = (transform.position - 
+							coll.collider.ClosestPointOnBounds(transform.position)).normalized;
+			rigidbody.velocity = surfaceNormal * jumpPower;
 		}	
 
 	/*	
@@ -103,5 +94,3 @@ function OnCollisionExit(col : Collision)
 	grounded = false;
 	slideModifier = 1;
 }
-
-
