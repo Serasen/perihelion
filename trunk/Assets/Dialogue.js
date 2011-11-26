@@ -1,30 +1,41 @@
 var dialogue : TextAsset;
 var skin : GUISkin;
-private var showBox = false;
+private var letterStandard = 0.1;
+private var letterPause = letterStandard;
 private var hasBeenTriggered = false;
 private var dial;
-private var index = 0;
-private var dialLength;
+
+private var currentDial = "";
+
+function Start() {
+	if(dialogue) dial = dialogue.text;
+	else Debug.Log("Sorry; no file has been chosen!");
+}
 
 function OnTriggerEnter() {
-		if(dialogue) {
-			if(!hasBeenTriggered) {
-				dial = dialogue.text.Split("\n"[0]);
-				dialLength = dial.length;
-				showBox = true;
-				hasBeenTriggered = true;
-			}
+	if(dialogue) {
+		if(!hasBeenTriggered) {
+			hasBeenTriggered = true;
+			ReadDial();
 		}
-		else Debug.Log("Sorry; no file has been chosen!");	
+	}	
 	
 }
 
 function OnGUI() {
+	letterPause = letterStandard;
 	GUI.skin = skin;
-	if(showBox && index < dialLength) {
-		if (GUI.Button (Rect (Screen.width/4,0,Screen.width/2,50), dial[index])) {
-			index++;
-		}
+	if(GUI.RepeatButton(Rect(Screen.width/4,0,Screen.width/2,Screen.height/3), currentDial)) {
+		letterPause = letterStandard/4;
 	}
-	else showBox = false;
+}
+
+private function ReadDial () {
+	for(var letter in dial) {
+		currentDial += letter; 
+		yield WaitForSeconds (letterPause); 
+	}
+	yield WaitForSeconds (letterPause*2);
+	currentDial = "";
+
 }
